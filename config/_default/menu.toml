@@ -1,0 +1,21 @@
+[[main]]
+  name = "Projects"
+  url = "/items/"
+  weight = 1
+
+[[main]]
+  name = "Timeline"
+  url = "/timeline/"
+  weight = 2
+
+  [[main]]
+  name = "Resume"
+  url = "mailto:andyklenz@gmail.com"
+  weight = 3
+
+[[main]]
+  name = "andyklenz@gmail.com"
+  url = "mailto:andyklenz@gmail.com"
+  weight = 4
+
+

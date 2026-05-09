@@ -1,0 +1,23 @@
+.DS_Store
+public/
+.venv/
+*.pyc
+.obsidian
+
+# Byte-compiled files (auto-generated)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments (your local setup)
+venv/
+.venv/
+env/
+.env
+
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+

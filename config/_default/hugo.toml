@@ -1,0 +1,10 @@
+locale = 'en-us'
+title = "Andy's Portfolio"
+theme = "PaperMod"
+Copyright = "Copyright, I guess ©"
+
+[author]
+  name = "Andy"
+
+[taxonomies]
+  tag = "tags"

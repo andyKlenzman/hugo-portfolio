@@ -1,0 +1,27 @@
+env = "production"
+
+# Tell PaperMod where content lives
+mainSections = ["items"]
+
+# Profile mode — portfolio-style homepage
+[profileMode]
+  enabled = true
+  title = "Andy"
+  subtitle = ""
+  imageUrl = "/images/logo.png"
+  imageTitle = "Avatar"
+
+# Social icons shown in profile mode
+[[socialIcons]]
+  name = "email"
+  url = "mailto:andyklenz@gmail.com"
+
+ShowReadingTime = true
+ShowPostNavLinks = true
+ShowBreadCrumbs = false
+ShowCodeCopyButtons = true
+ShowShareButtons = false
+ShowToc = false
+
+[assets]
+  customCSS = ["css/main.css"]

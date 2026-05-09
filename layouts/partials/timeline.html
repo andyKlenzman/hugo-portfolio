@@ -1,0 +1,20 @@
+<div class="timeline">
+  {{ range sort .Site.Data.timeline.entries "date" "desc" }}
+  <div class="timeline-entry">
+    <div class="timeline-date">
+      {{ $t := .date }}
+      {{ $parts := split $t "-" }}
+      {{ $year := index $parts 0 }}
+      {{ $month := index $parts 1 | int }}
+      {{ $months := slice "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec" }}
+      {{ index $months (sub $month 1) }} {{ $year }}
+    </div>
+    <div class="timeline-content">
+      <strong>
+        {{ if .url }}<a href="{{ .url }}">{{ .title }}</a>{{ else }}{{ .title }}{{ end }}
+      </strong>
+      {{ with .description }}<p>{{ . }}</p>{{ end }}
+    </div>
+  </div>
+  {{ end }}
+</div>
