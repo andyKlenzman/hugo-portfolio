@@ -3,6 +3,7 @@ public/
 .venv/
 *.pyc
 .obsidian
+dev-docs/
 
 # Byte-compiled files (auto-generated)
 __pycache__/
@@ -21,3 +22,4 @@ dist/
 build/
 *.egg-info/
 
+dev-docs/
