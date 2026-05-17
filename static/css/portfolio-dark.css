@@ -1,5 +1,5 @@
 /* ABOUTME: Dark portfolio design — colors, layout, and components matching the React portfolio. */
-/* ABOUTME: Palette: #1C1C1C bg, #e854e6 pink accent, white text; font: Roboto. */
+/* ABOUTME: Edit --primary to change the accent color everywhere (CSS + JS blobs sync automatically). */
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
@@ -9,15 +9,43 @@
   padding: 0;
 }
 
+/* ─────────────────────────────────────────────────────────
+ * Design tokens
+ * Edit these to restyle the whole site.
+ * ───────────────────────────────────────────────────────── */
 :root {
-  --primary:   #e854e6;
-  --dark:      #1c1c1c;
-  --white:     #ffffff;
-  --fs-large:  3.815rem;
-  --fs-medium: 1.953rem;
-  --fs-smmed:  1.563rem;
-  --fs-small:  1rem;
-  --fs-xsmall: 0.8rem;
+  /* Accent — change this one value to repaint every colored element */
+  --primary:      #e854e6;
+
+  /* Base palette */
+  --dark:         #1c1c1c;
+  --white:        #ffffff;
+
+  /* Typography scale (modular, ratio ~1.25) */
+  --fs-large:     3.815rem;
+  --fs-medium:    1.953rem;
+  --fs-smmed:     1.563rem;
+  --fs-small:     1rem;
+  --fs-xsmall:    0.8rem;
+
+  /* Navigation */
+  --nav-height:   40px;
+  --nav-gap:      12px;   /* horizontal gap between nav items */
+
+  /* Spacing */
+  --space-xs:     4px;
+  --space-sm:     8px;
+  --space-md:     16px;
+  --space-lg:     24px;
+  --space-xl:     40px;
+
+  /* Cards */
+  --card-height:  300px;
+
+  /* Animation */
+  --transition-btn: 0.7s;
+  --transition-card: 0.35s;
+  --transition-banner: 0.5s;
 }
 
 body {
@@ -26,21 +54,25 @@ body {
   color: var(--dark);
 }
 
-/* ── Fixed Nav ──────────────────────────────────────── */
+/* ── Fixed Nav ──────────────────────────────────────────── */
 
 .site-nav {
   background-color: var(--dark);
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  padding: 0 4px;
+  gap: var(--nav-gap);
+  padding: 0 var(--nav-gap);
   width: 100%;
-  height: 27px;
+  height: var(--nav-height);
   position: fixed;
   top: 0;
   left: 0;
   z-index: 5000;
+  overflow-x: auto;   /* scroll on narrow viewports instead of wrapping */
+  scrollbar-width: none;
 }
+
+.site-nav::-webkit-scrollbar { display: none; }
 
 .nav-link {
   color: var(--primary);
@@ -48,76 +80,25 @@ body {
   font-weight: 500;
   text-transform: uppercase;
   text-decoration: none;
-  margin-left: 4px;
-  cursor: pointer;
+  white-space: nowrap;
+  padding: var(--space-xs) 0;
+  line-height: var(--nav-height);
 }
 
 .nav-link:hover {
   color: var(--primary);
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
-/* Color picker — hue slider in the nav bar */
-.color-picker-wrapper {
-  margin-left: auto;
-  margin-right: 8px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.color-picker-label {
-  color: var(--primary);
-  font-size: var(--fs-xsmall);
-  text-transform: uppercase;
-  user-select: none;
-  white-space: nowrap;
-}
-
-.hue-slider {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 80px;
-  height: 6px;
-  border-radius: 3px;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  /* Full hue spectrum at the same saturation/lightness as the accent color */
-  background: linear-gradient(to right,
-    hsl(0,76%,52%),   hsl(45,76%,52%),  hsl(90,76%,52%),
-    hsl(135,76%,52%), hsl(180,76%,52%), hsl(225,76%,52%),
-    hsl(270,76%,52%), hsl(315,76%,52%), hsl(360,76%,52%));
-}
-
-.hue-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--white);
-  cursor: pointer;
-  border: 2px solid var(--dark);
-}
-
-.hue-slider::-moz-range-thumb {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--white);
-  cursor: pointer;
-  border: 2px solid var(--dark);
-}
-
-/* ── Glitch Text Effect ─────────────────────────────── */
+/* ── Glitch Text Effect ─────────────────────────────────── */
 /*
- * The glitch effect uses two identical text elements:
- * a white "front" layer on top and a pink "back" layer
- * offset 4px down-right, peeking out from behind.
+ * Two stacked text elements: white front (z-index 2) and
+ * primary-color back (z-index 1) offset by a few pixels.
  *
- * Two size variants share the same structure:
- *   .glitch-text      — large (hero, project banner)
- *   .card-glitch      — medium (project card overlay)
+ * Variants:
+ *   .glitch-text  — large, used in hero + project banner headlines
+ *   .card-glitch  — medium, used in card overlay + card banner
  */
 
 .glitch-text,
@@ -126,9 +107,6 @@ body {
   display: inline-block;
 }
 
-/* No negative margin — parent flex containers use gap for spacing. */
-
-/* Front layer — white, sits on top */
 .glitch-text-front,
 .card-glitch-front {
   position: relative;
@@ -138,7 +116,6 @@ body {
   display: block;
 }
 
-/* Back layer — primary color, absolutely offset to create the shadow */
 .glitch-text-back,
 .card-glitch-back {
   position: absolute;
@@ -150,19 +127,17 @@ body {
   pointer-events: none;
 }
 
-/* Size: large (hero headlines) */
+/* Large variant */
 .glitch-text-front,
-.glitch-text-back { font-size: var(--fs-large); }
+.glitch-text-back  { font-size: var(--fs-large); }
+.glitch-text-back  { left: -4px; top: 4px; }
 
-.glitch-text-back { left: -4px; top: 4px; }
-
-/* Size: medium (card overlays) */
+/* Medium variant */
 .card-glitch-front,
-.card-glitch-back { font-size: var(--fs-smmed); }
+.card-glitch-back  { font-size: var(--fs-smmed); }
+.card-glitch-back  { left: -2px; top: 2px; }
 
-.card-glitch-back { left: -2px; top: 2px; }
-
-/* ── Hero Banner ────────────────────────────────────── */
+/* ── Hero Banner ────────────────────────────────────────── */
 
 .hero {
   height: 100vh;
@@ -172,7 +147,7 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 15px;
+  padding: var(--space-md);
   text-transform: uppercase;
 }
 
@@ -190,7 +165,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: var(--space-md);
 }
 
 .hero-subtitle {
@@ -206,8 +181,7 @@ body {
   border: 2px solid var(--white);
   background: transparent;
   text-align: center;
-  margin-top: 19px;
-  transition: background-color 0.7s, border-color 0.7s;
+  transition: background-color var(--transition-btn), border-color var(--transition-btn);
   cursor: pointer;
   font-family: "Roboto", sans-serif;
   font-size: var(--fs-small);
@@ -224,18 +198,15 @@ body {
   text-decoration: none;
 }
 
-/* ── Introduction ───────────────────────────────────── */
+/* ── Introduction ───────────────────────────────────────── */
 
 .introduction {
-  padding-top: 80px;
-  padding-bottom: 40px;
+  padding: var(--space-xl) var(--space-md);
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: var(--space-lg);
   max-width: 1140px;
   margin: 0 auto;
-  padding-left: 15px;
-  padding-right: 15px;
 }
 
 .headshot-col {
@@ -269,22 +240,32 @@ body {
 .bio-col a { color: var(--primary); text-decoration: underline; }
 .bio-col a:hover { color: var(--dark); }
 
-/* ── Project Cards ──────────────────────────────────── */
+/* ── Project Cards ──────────────────────────────────────── */
 
 .projects-container {
   max-width: 1140px;
-  margin: 0 auto 60px;
-  padding: 0 15px;
+  margin: 0 auto var(--space-xl);
+  padding: 0 var(--space-md);
 }
 
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  gap: var(--space-lg);
 }
 
 @media (max-width: 767px) {
   .projects-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Image loading shimmer ────────────────────────────────
+ * A left-to-right sweep plays while the card image loads.
+ * Once the image fires its load event, JS adds .loaded and
+ * the shimmer fades out.
+ */
+@keyframes card-shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%);  }
 }
 
 .project-card {
@@ -292,10 +273,30 @@ body {
   cursor: pointer;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  height: 300px;
+  height: var(--card-height);
   display: block;
   text-decoration: none;
   background: var(--dark);
+}
+
+/* Shimmer sweep — runs while image is loading */
+.project-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,255,255,0.06) 50%,
+    transparent 100%);
+  animation: card-shimmer 1.8s linear infinite;
+  pointer-events: none;
+  z-index: 3;
+  transition: opacity 0.4s ease;
+}
+
+.project-card.loaded::after {
+  opacity: 0;
+  animation: none;
 }
 
 .project-card-img {
@@ -311,18 +312,23 @@ body {
   inset: 0;
   background: rgba(0, 0, 0, 0.562);
   opacity: 0;
-  transition: opacity 0.35s ease;
+  transition: opacity var(--transition-card) ease;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 40px 15px 15px;
+  padding: var(--space-xl) var(--space-md) var(--space-md);
+  gap: var(--space-sm);
+  z-index: 1;
 }
 
 .project-card:hover .card-overlay { opacity: 1; }
 
-/* Foreground title banner — slides out on hover */
+/* Foreground title banner — slides out on hover.
+ * overflow is intentionally hidden so the glitch back layer
+ * is clipped along with the rest of the banner as width → 0.
+ */
 .card-banner {
   position: absolute;
   bottom: 10%;
@@ -334,8 +340,9 @@ body {
   overflow: hidden;
   display: flex;
   align-items: center;
-  padding-left: 15px;
-  transition: width 0.5s ease, padding-left 0.5s ease;
+  padding-left: var(--space-md);
+  transition: width var(--transition-banner) ease, padding-left var(--transition-banner) ease;
+  z-index: 2;
 }
 
 .project-card:hover .card-banner {
@@ -343,23 +350,22 @@ body {
   padding-left: 0;
 }
 
-.card-title-small {
-  color: var(--white);
+/* Banner glitch text — slightly smaller offset to fit the 45px bar */
+.card-banner .card-glitch-front,
+.card-banner .card-glitch-back {
   font-size: var(--fs-smmed);
-  font-weight: 700;
   white-space: nowrap;
 }
 
 .card-subtitle {
   color: var(--white);
   font-size: var(--fs-small);
-  margin-top: -5px;
 }
 
-/* ── Shared footer / project-banner canvas sections ─── */
-/*
- * Both the footer and the project page banner use the same
- * structure: a full-bleed canvas behind centered content.
+/* ── Shared canvas sections (footer + project banner) ─────
+ * Both use a full-bleed absolutely-positioned canvas as background.
+ * Pixel dims are read from offsetWidth/offsetHeight in JS so the
+ * blobs are always perfectly round.
  */
 
 .site-footer,
@@ -370,11 +376,11 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 15px;
+  padding: var(--space-md);
+  min-height: 50vh;
 }
 
-.site-footer { min-height: 50vh; }
-.project-banner { min-height: 50vh; text-transform: uppercase; }
+.project-banner { text-transform: uppercase; }
 
 #footer-canvas,
 #project-banner-canvas {
@@ -392,6 +398,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: var(--space-sm);
 }
 
 .footer-title {
@@ -399,7 +406,6 @@ body {
   font-size: var(--fs-medium);
   font-weight: 700;
   text-transform: uppercase;
-  margin-bottom: 5px;
 }
 
 .footer-email {
@@ -414,7 +420,7 @@ body {
   text-decoration-color: var(--white);
 }
 
-/* ── Project Single Page ────────────────────────────── */
+/* ── Project Single Page ────────────────────────────────── */
 
 .btn-filled {
   display: inline-block;
@@ -424,8 +430,7 @@ body {
   border: 2px solid var(--primary);
   background: var(--primary);
   text-align: center;
-  margin-top: 15px;
-  transition: background-color 0.7s, border-color 0.7s;
+  transition: background-color var(--transition-btn), border-color var(--transition-btn);
   cursor: pointer;
   font-family: "Roboto", sans-serif;
   font-size: var(--fs-small);
@@ -443,8 +448,8 @@ body {
 
 .project-body {
   max-width: 756px;
-  margin: 80px auto 40px;
-  padding: 0 15px;
+  margin: var(--space-xl) auto;
+  padding: 0 var(--space-md);
   font-size: var(--fs-small);
   line-height: 1.7;
   color: var(--dark);
@@ -454,9 +459,33 @@ body {
 .project-body h2,
 .project-body h3 { margin: 1.5em 0 0.5em; font-weight: 700; }
 
-.project-body p      { margin-bottom: 1em; }
-.project-body img    { max-width: 100%; height: auto; display: block; margin: 1.5em auto; }
-.project-body iframe { max-width: 100%; display: block; margin: 1.5em auto; }
+.project-body p { margin-bottom: 1em; }
+
+/* Images: normalized size + fade-in once loaded */
+.project-body img {
+  max-width: 100%;
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+  margin: var(--space-lg) auto;
+  background: var(--dark);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.project-body img.img-loaded { opacity: 1; }
+
+/* Videos: locked to 16:9 */
+.project-body iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  display: block;
+  margin: var(--space-lg) auto;
+  border: none;
+}
+
 .project-body a      { color: var(--primary); text-decoration: underline; }
 .project-body strong { font-weight: 700; }
 
@@ -472,8 +501,8 @@ body {
   display: flex;
   justify-content: space-between;
   max-width: 756px;
-  margin: 0 auto 40px;
-  padding: 0 15px;
+  margin: 0 auto var(--space-xl);
+  padding: 0 var(--space-md);
   font-size: var(--fs-small);
   text-transform: uppercase;
 }

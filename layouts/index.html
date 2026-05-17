@@ -49,7 +49,7 @@
         <p class="card-subtitle">{{ .Description }}</p>
       </div>
       <div class="card-banner">
-        <p class="card-title-small">{{ .Title }}</p>
+        {{ partial "glitch-text.html" (dict "text" .Title "class" "card-glitch") }}
       </div>
     </a>
     {{- end }}
