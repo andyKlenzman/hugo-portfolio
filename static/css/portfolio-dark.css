@@ -57,53 +57,56 @@ body {
   text-decoration: none;
 }
 
-/* Color picker — lives in the nav bar */
+/* Color picker — hue slider in the nav bar */
 .color-picker-wrapper {
   margin-left: auto;
   margin-right: 8px;
   display: flex;
   align-items: center;
   gap: 6px;
-  position: relative;
 }
 
 .color-picker-label {
   color: var(--primary);
   font-size: var(--fs-xsmall);
   text-transform: uppercase;
-  cursor: pointer;
   user-select: none;
+  white-space: nowrap;
 }
 
-.color-swatches {
-  display: none;
-  position: absolute;
-  top: 27px;
-  right: 0;
-  background: var(--dark);
-  border: 1px solid var(--primary);
-  padding: 6px;
-  gap: 6px;
-  flex-direction: column;
-  z-index: 6000;
-}
-
-.color-swatches.open {
-  display: flex;
-}
-
-.color-swatch {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
+.hue-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 80px;
+  height: 6px;
+  border-radius: 3px;
+  border: none;
+  outline: none;
   cursor: pointer;
-  border: 2px solid transparent;
-  transition: border-color 0.2s;
+  /* Full hue spectrum at the same saturation/lightness as the accent color */
+  background: linear-gradient(to right,
+    hsl(0,76%,52%),   hsl(45,76%,52%),  hsl(90,76%,52%),
+    hsl(135,76%,52%), hsl(180,76%,52%), hsl(225,76%,52%),
+    hsl(270,76%,52%), hsl(315,76%,52%), hsl(360,76%,52%));
 }
 
-.color-swatch:hover,
-.color-swatch.active {
-  border-color: var(--white);
+.hue-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--white);
+  cursor: pointer;
+  border: 2px solid var(--dark);
+}
+
+.hue-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--white);
+  cursor: pointer;
+  border: 2px solid var(--dark);
 }
 
 /* ── Glitch Text Effect ─────────────────────────────── */
@@ -123,7 +126,7 @@ body {
   display: inline-block;
 }
 
-.glitch-text { margin-bottom: -15px; }
+/* No negative margin — parent flex containers use gap for spacing. */
 
 /* Front layer — white, sits on top */
 .glitch-text-front,
@@ -187,12 +190,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 14px;
 }
 
 .hero-subtitle {
   color: var(--white);
   font-size: var(--fs-smmed);
-  margin: -5px 0;
 }
 
 .btn-transparent {

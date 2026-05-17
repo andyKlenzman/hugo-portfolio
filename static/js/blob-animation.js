@@ -1,5 +1,9 @@
 // ABOUTME: Canvas metaball (floating blob) animation, ported from the React portfolio source.
-// ABOUTME: Creates independent animation instances for the hero and footer canvases.
+// ABOUTME: Blob colors and CSS accent color are both driven by a shared hue value.
+
+// Current hue (0-360) — read by BlobParticle.draw() every frame so color
+// updates are instant without needing to recreate the particle system.
+var currentHue = 301;
 
 class MetaBlobEffect {
   constructor(width, height, rad, opacity) {
@@ -28,20 +32,14 @@ class MetaBlobEffect {
 class BlobParticle {
   constructor(effect) {
     this.effect = effect;
-    var opacity = effect.opacity;
     this.x = effect.width * Math.random();
     this.y = effect.height * (Math.random() * (0.9 - 0.1) - 0.1);
     this.rad = Math.random() * effect.rad;
     this.speedX = 0;
     this.speedY = Math.random() * 1;
-
-    if (this.speedY >= 0.8) {
-      this.color = "hsla(301,76%,62%," + opacity + ")";
-    } else if (this.speedY >= 0.6) {
-      this.color = "hsla(301,76%,42%," + opacity + ")";
-    } else {
-      this.color = "hsla(301,76%,22%," + opacity + ")";
-    }
+    // Lightness bucket based on speed — same logic as the original React source.
+    // 0.8+ → bright, 0.6–0.8 → mid, <0.6 → dark
+    this.lightness = this.speedY >= 0.8 ? 62 : this.speedY >= 0.6 ? 42 : 22;
   }
 
   update() {
@@ -54,8 +52,10 @@ class BlobParticle {
   }
 
   draw(ctx) {
+    // Read currentHue every frame so color changes are instant.
+    var color = "hsla(" + currentHue + ",76%," + this.lightness + "%," + this.effect.opacity + ")";
     ctx.beginPath();
-    ctx.fillStyle = this.color;
+    ctx.fillStyle = color;
     ctx.arc(this.x, this.y, this.rad, 0, 2 * Math.PI);
     ctx.fill();
   }
@@ -65,16 +65,16 @@ function startBlobAnimation(canvasId, opts) {
   var canvas = document.getElementById(canvasId);
   if (!canvas) return;
 
-  var bgColor = opts.bgColor || "#1C1C1C";
-  var rad = opts.rad || 50;
-  var opacity = opts.opacity || 0.5;
+  var bgColor      = opts.bgColor      || "#1C1C1C";
+  var rad          = opts.rad          || 50;
+  var opacity      = opts.opacity      || 0.5;
   var blobsPerWidth = opts.blobsPerWidth || 200;
-  var heightFn = opts.heightFn || function () { return window.innerHeight; };
+  var heightFn     = opts.heightFn     || function () { return window.innerHeight; };
 
   var effect = null;
 
   function render() {
-    canvas.width = window.innerWidth;
+    canvas.width  = window.innerWidth;
     canvas.height = heightFn();
     var ctx = canvas.getContext("2d");
 
@@ -95,65 +95,37 @@ function startBlobAnimation(canvasId, opts) {
     requestAnimationFrame(render);
   }
 
-  window.addEventListener("resize", function () {
-    effect = null;
-  });
-
+  window.addEventListener("resize", function () { effect = null; });
   render();
 }
 
-// ── Color picker ────────────────────────────────────────
-// Lets visitors swap the primary accent color via swatches in the nav bar.
-// The chosen color is persisted to localStorage so it survives page loads.
+// ── Color / hue slider ───────────────────────────────────
+// A range input in the nav bar slides through the hue wheel (0-360).
+// Changing it updates both --primary on the root element and currentHue
+// so the blob animations update on the very next animation frame.
 
 function initColorPicker() {
-  var STORAGE_KEY = "portfolio-primary-color";
+  var STORAGE_KEY = "portfolio-hue";
   var root = document.documentElement;
 
-  function applyColor(color) {
-    root.style.setProperty("--primary", color);
+  function applyHue(hue) {
+    currentHue = hue;
+    root.style.setProperty("--primary", "hsl(" + hue + ",76%,62%)");
   }
 
-  // Restore saved color on load
   var saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) { applyColor(saved); }
+  var initialHue = saved !== null ? parseInt(saved, 10) : 301;
+  applyHue(initialHue);
 
-  var toggle   = document.getElementById("color-picker-toggle");
-  var swatches = document.getElementById("color-swatches");
-  if (!toggle || !swatches) return;
+  var slider = document.getElementById("hue-slider");
+  if (!slider) return;
 
-  // Toggle the swatch panel open/closed
-  toggle.addEventListener("click", function (e) {
-    e.stopPropagation();
-    swatches.classList.toggle("open");
-  });
+  slider.value = initialHue;
 
-  // Close when clicking outside
-  document.addEventListener("click", function () {
-    swatches.classList.remove("open");
-  });
-
-  // Apply color on swatch click
-  swatches.querySelectorAll(".color-swatch").forEach(function (swatch) {
-    // Mark the initially-active swatch based on saved or default color
-    var currentColor = saved || "#e854e6";
-    if (swatch.dataset.color === currentColor) {
-      swatch.classList.add("active");
-    } else {
-      swatch.classList.remove("active");
-    }
-
-    swatch.addEventListener("click", function (e) {
-      e.stopPropagation();
-      var color = swatch.dataset.color;
-      applyColor(color);
-      localStorage.setItem(STORAGE_KEY, color);
-      swatches.querySelectorAll(".color-swatch").forEach(function (s) {
-        s.classList.remove("active");
-      });
-      swatch.classList.add("active");
-      swatches.classList.remove("open");
-    });
+  slider.addEventListener("input", function () {
+    var hue = parseInt(slider.value, 10);
+    applyHue(hue);
+    localStorage.setItem(STORAGE_KEY, hue);
   });
 }
 
