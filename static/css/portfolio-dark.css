@@ -32,6 +32,7 @@ body {
   background-color: var(--dark);
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   padding: 0 4px;
   width: 100%;
   height: 27px;
@@ -55,6 +56,108 @@ body {
   color: var(--primary);
   text-decoration: none;
 }
+
+/* Color picker — lives in the nav bar */
+.color-picker-wrapper {
+  margin-left: auto;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+
+.color-picker-label {
+  color: var(--primary);
+  font-size: var(--fs-xsmall);
+  text-transform: uppercase;
+  cursor: pointer;
+  user-select: none;
+}
+
+.color-swatches {
+  display: none;
+  position: absolute;
+  top: 27px;
+  right: 0;
+  background: var(--dark);
+  border: 1px solid var(--primary);
+  padding: 6px;
+  gap: 6px;
+  flex-direction: column;
+  z-index: 6000;
+}
+
+.color-swatches.open {
+  display: flex;
+}
+
+.color-swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.color-swatch:hover,
+.color-swatch.active {
+  border-color: var(--white);
+}
+
+/* ── Glitch Text Effect ─────────────────────────────── */
+/*
+ * The glitch effect uses two identical text elements:
+ * a white "front" layer on top and a pink "back" layer
+ * offset 4px down-right, peeking out from behind.
+ *
+ * Two size variants share the same structure:
+ *   .glitch-text      — large (hero, project banner)
+ *   .card-glitch      — medium (project card overlay)
+ */
+
+.glitch-text,
+.card-glitch {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-text { margin-bottom: -15px; }
+
+/* Front layer — white, sits on top */
+.glitch-text-front,
+.card-glitch-front {
+  position: relative;
+  z-index: 2;
+  color: var(--white);
+  font-weight: 700;
+  display: block;
+}
+
+/* Back layer — primary color, absolutely offset to create the shadow */
+.glitch-text-back,
+.card-glitch-back {
+  position: absolute;
+  z-index: 1;
+  color: var(--primary);
+  width: 100%;
+  font-weight: 700;
+  display: block;
+  pointer-events: none;
+}
+
+/* Size: large (hero headlines) */
+.glitch-text-front,
+.glitch-text-back { font-size: var(--fs-large); }
+
+.glitch-text-back { left: -4px; top: 4px; }
+
+/* Size: medium (card overlays) */
+.card-glitch-front,
+.card-glitch-back { font-size: var(--fs-smmed); }
+
+.card-glitch-back { left: -2px; top: 2px; }
 
 /* ── Hero Banner ────────────────────────────────────── */
 
@@ -81,32 +184,9 @@ body {
 .hero-content {
   position: relative;
   z-index: 1;
-}
-
-/* Glitch text: white front layer, pink offset behind */
-.glitch-text {
-  position: relative;
-  display: inline-block;
-  margin-bottom: -15px;
-}
-
-.glitch-text-front {
-  position: relative;
-  z-index: 42;
-  color: var(--white);
-  font-size: var(--fs-large);
-  font-weight: 700;
-}
-
-.glitch-text-back {
-  position: absolute;
-  z-index: 4;
-  color: var(--primary);
-  left: -4px;
-  top: 4px;
-  width: 100%;
-  font-size: var(--fs-large);
-  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hero-subtitle {
@@ -164,9 +244,7 @@ body {
 }
 
 @media (min-width: 768px) {
-  .headshot-col {
-    width: 300px;
-  }
+  .headshot-col { width: 300px; }
 }
 
 .headshot {
@@ -203,9 +281,7 @@ body {
 }
 
 @media (max-width: 767px) {
-  .projects-grid {
-    grid-template-columns: 1fr;
-  }
+  .projects-grid { grid-template-columns: 1fr; }
 }
 
 .project-card {
@@ -241,11 +317,9 @@ body {
   padding: 40px 15px 15px;
 }
 
-.project-card:hover .card-overlay {
-  opacity: 1;
-}
+.project-card:hover .card-overlay { opacity: 1; }
 
-/* Foreground banner — slides out on hover */
+/* Foreground title banner — slides out on hover */
 .card-banner {
   position: absolute;
   bottom: 10%;
@@ -273,42 +347,21 @@ body {
   white-space: nowrap;
 }
 
-/* Glitch variant for card overlay title */
-.card-glitch {
-  position: relative;
-  display: inline-block;
-}
-
-.card-glitch-front {
-  position: relative;
-  z-index: 42;
-  color: var(--white);
-  font-size: var(--fs-smmed);
-  font-weight: 700;
-}
-
-.card-glitch-back {
-  position: absolute;
-  z-index: 4;
-  color: var(--primary);
-  left: -2px;
-  top: 2px;
-  width: 100%;
-  font-size: var(--fs-smmed);
-  font-weight: 700;
-}
-
 .card-subtitle {
   color: var(--white);
   font-size: var(--fs-small);
   margin-top: -5px;
 }
 
-/* ── Footer ─────────────────────────────────────────── */
+/* ── Shared footer / project-banner canvas sections ─── */
+/*
+ * Both the footer and the project page banner use the same
+ * structure: a full-bleed canvas behind centered content.
+ */
 
-.site-footer {
+.site-footer,
+.project-banner {
   position: relative;
-  min-height: 50vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -317,7 +370,11 @@ body {
   padding: 15px;
 }
 
-#footer-canvas {
+.site-footer { min-height: 50vh; }
+.project-banner { min-height: 50vh; text-transform: uppercase; }
+
+#footer-canvas,
+#project-banner-canvas {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -325,9 +382,13 @@ body {
   z-index: 0;
 }
 
-.footer-content {
+.footer-content,
+.project-banner-content {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .footer-title {
@@ -352,54 +413,28 @@ body {
 
 /* ── Project Single Page ────────────────────────────── */
 
-.project-banner {
-  position: relative;
-  min-height: 50vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 15px;
-  text-transform: uppercase;
-}
-
-#project-banner-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-
-.project-banner-content {
-  position: relative;
-  z-index: 1;
-}
-
 .btn-filled {
   display: inline-block;
   height: 50px;
   width: 150px;
   color: var(--white);
-  border: none;
+  border: 2px solid var(--primary);
   background: var(--primary);
   text-align: center;
   margin-top: 15px;
-  transition: background-color 0.7s, border 0.7s;
+  transition: background-color 0.7s, border-color 0.7s;
   cursor: pointer;
   font-family: "Roboto", sans-serif;
   font-size: var(--fs-small);
   text-transform: uppercase;
-  line-height: 50px;
+  line-height: 46px;
   text-decoration: none;
 }
 
 .btn-filled:hover {
   background: transparent;
-  border: 2px solid var(--white);
+  border-color: var(--white);
   color: var(--white);
-  line-height: 46px;
   text-decoration: none;
 }
 
@@ -412,31 +447,14 @@ body {
   color: var(--dark);
 }
 
-.project-body h1, .project-body h2, .project-body h3 {
-  margin: 1.5em 0 0.5em;
-  font-weight: 700;
-}
+.project-body h1,
+.project-body h2,
+.project-body h3 { margin: 1.5em 0 0.5em; font-weight: 700; }
 
-.project-body p { margin-bottom: 1em; }
-
-.project-body img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 1.5em auto;
-}
-
-.project-body iframe {
-  max-width: 100%;
-  display: block;
-  margin: 1.5em auto;
-}
-
-.project-body a {
-  color: var(--primary);
-  text-decoration: underline;
-}
-
+.project-body p      { margin-bottom: 1em; }
+.project-body img    { max-width: 100%; height: auto; display: block; margin: 1.5em auto; }
+.project-body iframe { max-width: 100%; display: block; margin: 1.5em auto; }
+.project-body a      { color: var(--primary); text-decoration: underline; }
 .project-body strong { font-weight: 700; }
 
 .project-body code {
@@ -446,7 +464,7 @@ body {
   border-radius: 3px;
 }
 
-/* Project navigation links */
+/* Prev / next project navigation */
 .project-nav {
   display: flex;
   justify-content: space-between;
@@ -457,11 +475,5 @@ body {
   text-transform: uppercase;
 }
 
-.project-nav a {
-  color: var(--primary);
-  text-decoration: none;
-}
-
-.project-nav a:hover {
-  text-decoration: underline;
-}
+.project-nav a { color: var(--primary); text-decoration: none; }
+.project-nav a:hover { text-decoration: underline; }

@@ -102,7 +102,64 @@ function startBlobAnimation(canvasId, opts) {
   render();
 }
 
+// ── Color picker ────────────────────────────────────────
+// Lets visitors swap the primary accent color via swatches in the nav bar.
+// The chosen color is persisted to localStorage so it survives page loads.
+
+function initColorPicker() {
+  var STORAGE_KEY = "portfolio-primary-color";
+  var root = document.documentElement;
+
+  function applyColor(color) {
+    root.style.setProperty("--primary", color);
+  }
+
+  // Restore saved color on load
+  var saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) { applyColor(saved); }
+
+  var toggle   = document.getElementById("color-picker-toggle");
+  var swatches = document.getElementById("color-swatches");
+  if (!toggle || !swatches) return;
+
+  // Toggle the swatch panel open/closed
+  toggle.addEventListener("click", function (e) {
+    e.stopPropagation();
+    swatches.classList.toggle("open");
+  });
+
+  // Close when clicking outside
+  document.addEventListener("click", function () {
+    swatches.classList.remove("open");
+  });
+
+  // Apply color on swatch click
+  swatches.querySelectorAll(".color-swatch").forEach(function (swatch) {
+    // Mark the initially-active swatch based on saved or default color
+    var currentColor = saved || "#e854e6";
+    if (swatch.dataset.color === currentColor) {
+      swatch.classList.add("active");
+    } else {
+      swatch.classList.remove("active");
+    }
+
+    swatch.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var color = swatch.dataset.color;
+      applyColor(color);
+      localStorage.setItem(STORAGE_KEY, color);
+      swatches.querySelectorAll(".color-swatch").forEach(function (s) {
+        s.classList.remove("active");
+      });
+      swatch.classList.add("active");
+      swatches.classList.remove("open");
+    });
+  });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
+  initColorPicker();
+
   startBlobAnimation("hero-canvas", { blobsPerWidth: 200 });
 
   startBlobAnimation("footer-canvas", {

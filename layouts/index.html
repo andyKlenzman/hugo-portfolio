@@ -6,10 +6,7 @@
 <section class="hero">
   <canvas id="hero-canvas"></canvas>
   <div class="hero-content">
-    <div class="glitch-text">
-      <p class="glitch-text-front">Andy Klenzman</p>
-      <p class="glitch-text-back">Andy Klenzman</p>
-    </div>
+    {{ partial "glitch-text.html" (dict "text" "Andy Klenzman" "class" "glitch-text") }}
     <p class="hero-subtitle">&lt;Full Stack Developer /&gt;</p>
     <a class="btn-transparent" href="#portfolio">View Portfolio</a>
   </div>
@@ -42,17 +39,13 @@
   <div class="projects-grid">
     {{- $items := where .Site.RegularPages "Section" "items" }}
     {{- range (sort $items "Date" "desc") }}
-    {{- $page := . }}
     {{- $img := .Resources.GetMatch "*.{jpg,jpeg,png,PNG,gif,webp}" }}
     <a class="project-card" href="{{ .RelPermalink }}">
       {{- if $img }}
         <img class="project-card-img" src="{{ $img.RelPermalink }}" alt="{{ .Title }}">
       {{- end }}
       <div class="card-overlay">
-        <div class="card-glitch">
-          <p class="card-glitch-front">{{ .Title }}</p>
-          <p class="card-glitch-back">{{ .Title }}</p>
-        </div>
+        {{ partial "glitch-text.html" (dict "text" .Title "class" "card-glitch") }}
         <p class="card-subtitle">{{ .Description }}</p>
       </div>
       <div class="card-banner">
@@ -63,13 +56,6 @@
   </div>
 </section>
 
-{{- /* ── Footer ───────────────────────────────────────── */}}
-<footer class="site-footer">
-  <canvas id="footer-canvas"></canvas>
-  <div class="footer-content">
-    <p class="footer-title">Let&#39;s build something cool!</p>
-    <a class="footer-email" href="mailto:andyklenz@gmail.com">andyklenz@gmail.com</a>
-  </div>
-</footer>
+{{ partial "site-footer.html" . }}
 
 {{ end }}

@@ -1,4 +1,4 @@
-{{- /* ABOUTME: Individual project page layout: mini banner → content → nav → footer. */}}
+{{- /* ABOUTME: Individual project page layout: mini banner → content → prev/next nav → footer. */}}
 {{- /* ABOUTME: Mirrors the React ProjectPageTemplate structure. */}}
 {{ define "main" }}
 
@@ -6,10 +6,7 @@
 <section class="project-banner">
   <canvas id="project-banner-canvas"></canvas>
   <div class="project-banner-content">
-    <div class="glitch-text">
-      <p class="glitch-text-front">{{ .Title }}</p>
-      <p class="glitch-text-back">{{ .Title }}</p>
-    </div>
+    {{ partial "glitch-text.html" (dict "text" .Title "class" "glitch-text") }}
     <p class="hero-subtitle">{{ .Description }}</p>
     {{- with .Params.github_url }}
     <a class="btn-filled" href="{{ . }}" target="_blank" rel="noopener noreferrer">View Project</a>
@@ -36,13 +33,6 @@
   </div>
 </nav>
 
-{{- /* ── Footer ───────────────────────────────────────── */}}
-<footer class="site-footer">
-  <canvas id="footer-canvas"></canvas>
-  <div class="footer-content">
-    <p class="footer-title">Let&#39;s build something cool!</p>
-    <a class="footer-email" href="mailto:andyklenz@gmail.com">andyklenz@gmail.com</a>
-  </div>
-</footer>
+{{ partial "site-footer.html" . }}
 
 {{ end }}

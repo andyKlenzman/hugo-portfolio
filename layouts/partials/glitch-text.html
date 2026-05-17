@@ -1,0 +1,8 @@
+{{- /* ABOUTME: Renders the white-front / pink-offset-back glitch text effect. */}}
+{{- /* ABOUTME: Call with: partial "glitch-text.html" (dict "text" "Hello" "class" "glitch-text") */}}
+{{- $text  := .text }}
+{{- $class := .class | default "glitch-text" }}
+<div class="{{ $class }}">
+  <p class="{{ $class }}-front">{{ $text }}</p>
+  <p class="{{ $class }}-back">{{ $text }}</p>
+</div>
