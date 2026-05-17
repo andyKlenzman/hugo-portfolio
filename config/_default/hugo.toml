@@ -1,7 +1,6 @@
 locale = 'en-us'
-title = "Andy's Portfolio"
+title = "andy klenzman"
 theme = "PaperMod"
-Copyright = "Copyright, I guess ©"
 
 [author]
   name = "Andy"

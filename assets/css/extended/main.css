@@ -1,0 +1,202 @@
+/* ABOUTME: Custom styles for the portfolio site. */
+/* ABOUTME: Loaded via PaperMod's css/extended pipeline. */
+
+/* --- Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=DM+Mono:wght@400&display=swap');
+
+/* --- Splash Card --- */
+
+.splash-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 3rem 1rem;
+}
+
+.splash-card {
+    --splash-bg: #faf9f7;
+    --splash-fg: #1a1a18;
+    --splash-secondary: #5c5c58;
+    --splash-border-accent: #1a1a18;
+    --splash-rule: #d4d0c8;
+    --splash-link-hover: #888884;
+    --splash-shadow: rgba(0, 0, 0, 0.10);
+
+    width: 100%;
+    max-width: 660px;
+    background: var(--splash-bg);
+    border-left: 4px solid var(--splash-border-accent);
+    padding: 2rem 2.25rem 1.75rem 2.25rem;
+    box-shadow: 8px 8px 0 var(--splash-shadow);
+    position: relative;
+}
+
+[data-theme="dark"] .splash-card {
+    --splash-bg: #111110;
+    --splash-fg: #e8e4dc;
+    --splash-secondary: #888480;
+    --splash-border-accent: #e8e4dc;
+    --splash-rule: #2a2a28;
+    --splash-link-hover: #bcb8b0;
+    --splash-shadow: rgba(0, 0, 0, 0.40);
+}
+
+/* Row 1: avatar + identity words */
+
+.splash-row-1 {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    align-items: center;
+}
+
+.splash-image-col {
+    padding-right: 1.5rem;
+    border-right: 1px solid var(--splash-rule);
+}
+
+.splash-avatar {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(12%);
+}
+
+.splash-words-col {
+    padding-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.splash-word {
+    font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+    font-weight: 700;
+    font-size: 1.45rem;
+    line-height: 1.15;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--splash-fg);
+    display: block;
+}
+
+/* Row 2: description */
+
+.splash-row-2 {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--splash-rule);
+}
+
+.splash-description {
+    font-size: 0.94rem;
+    line-height: 1.75;
+    color: var(--splash-secondary);
+}
+
+.splash-description p {
+    margin: 0 0 0.5rem 0;
+}
+
+.splash-description p:last-child {
+    margin-bottom: 0;
+}
+
+.splash-description a {
+    color: var(--splash-fg);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: color 0.15s ease;
+}
+
+.splash-description a:hover {
+    color: var(--splash-link-hover);
+}
+
+/* Social footer */
+
+.splash-social-bar {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--splash-rule);
+    display: flex;
+    gap: 1.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.splash-social-link {
+    font-family: 'DM Mono', 'Courier New', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--splash-secondary);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.splash-social-link:hover {
+    color: var(--splash-fg);
+}
+
+@media (max-width: 480px) {
+    .splash-row-1 {
+        grid-template-columns: 64px 1fr;
+    }
+
+    .splash-avatar {
+        width: 64px;
+        height: 64px;
+    }
+
+    .splash-word {
+        font-size: 1.2rem;
+    }
+
+    .splash-card {
+        padding: 1.5rem 1.25rem 1.25rem 1.25rem;
+    }
+}
+
+/* --- Timeline --- */
+
+.timeline {
+    position: relative;
+    padding-left: 130px;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 110px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: var(--border);
+}
+
+.timeline-entry {
+    position: relative;
+    display: flex;
+    margin-bottom: 1.5rem;
+}
+
+.timeline-date {
+    position: absolute;
+    left: -130px;
+    width: 110px;
+    text-align: right;
+    font-size: 0.85rem;
+    color: var(--secondary);
+    padding-top: 2px;
+}
+
+.timeline-content {
+    padding-left: 1rem;
+}
+
+.timeline-content p {
+    margin: 0.2rem 0 0 0;
+    font-size: 0.9rem;
+    color: var(--secondary);
+}

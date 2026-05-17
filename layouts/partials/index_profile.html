@@ -1,0 +1,49 @@
+{{- /* ABOUTME: Custom splash card for the homepage — overrides PaperMod's index_profile partial. */}}
+{{- /* ABOUTME: Row 1: avatar + identity words. Row 2: description with links. Social footer bar. */}}
+<div class="splash-wrapper">
+  <div class="splash-card">
+
+    {{- /* Row 1: avatar + three identity words */}}
+    <div class="splash-row-1">
+      {{- with site.Params.profileMode }}
+        {{- if .imageUrl }}
+        <div class="splash-image-col">
+          {{- $img := "" }}
+          {{- if not (urls.Parse .imageUrl).IsAbs }}
+            {{- $img = resources.Get .imageUrl }}
+          {{- end }}
+          {{- if $img }}
+            <img class="splash-avatar" src="{{ $img.Permalink }}" alt="{{ .imageTitle | default "profile" }}" />
+          {{- else }}
+            <img class="splash-avatar" src="{{ .imageUrl | absURL }}" alt="{{ .imageTitle | default "profile" }}" />
+          {{- end }}
+        </div>
+        {{- end }}
+      {{- end }}
+      <div class="splash-words-col">
+        {{- range site.Params.identityWords }}
+        <span class="splash-word">{{ . }}</span>
+        {{- end }}
+      </div>
+    </div>
+
+    {{- /* Row 2: description */}}
+    <div class="splash-row-2">
+      <div class="splash-description">
+        {{ $.Content }}
+      </div>
+    </div>
+
+    {{- /* Social footer */}}
+    {{- if site.Params.socialIcons }}
+    <div class="splash-social-bar">
+      {{- range site.Params.socialIcons }}
+      <a class="splash-social-link" href="{{ trim .url " " | safeURL }}" target="_blank" rel="noopener noreferrer me">
+        {{- .name -}}
+      </a>
+      {{- end }}
+    </div>
+    {{- end }}
+
+  </div>
+</div>

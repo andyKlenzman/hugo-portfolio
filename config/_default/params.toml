@@ -3,18 +3,26 @@ env = "production"
 # Tell PaperMod where content lives
 mainSections = ["items"]
 
+identityWords = ["Engineer", "Builder", "Maker"]
+
 # Profile mode — portfolio-style homepage
 [profileMode]
   enabled = true
-  title = "Andy"
-  subtitle = ""
-  imageUrl = "/images/logo.png"
+  subtitle = "fdqsfewqfewq"
+  imageUrl = "/images/myFace_compressed.jpg"
   imageTitle = "Avatar"
 
-# Social icons shown in profile mode
 [[socialIcons]]
-  name = "email"
-  url = "mailto:andyklenz@gmail.com"
+name = "LinkedIn"
+url = "https://linkedin.com/in/andrewklenzman"
+
+[[socialIcons]]
+name = "GitHub"
+url = "https://github.com/andrewklenzman"
+
+[[socialIcons]]
+name = "Email"
+url = "mailto:andyklenz@gmail.com"
 
 ShowReadingTime = true
 ShowPostNavLinks = true
