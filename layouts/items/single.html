@@ -1,0 +1,48 @@
+{{- /* ABOUTME: Individual project page layout: mini banner → content → nav → footer. */}}
+{{- /* ABOUTME: Mirrors the React ProjectPageTemplate structure. */}}
+{{ define "main" }}
+
+{{- /* ── Project Banner ───────────────────────────────── */}}
+<section class="project-banner">
+  <canvas id="project-banner-canvas"></canvas>
+  <div class="project-banner-content">
+    <div class="glitch-text">
+      <p class="glitch-text-front">{{ .Title }}</p>
+      <p class="glitch-text-back">{{ .Title }}</p>
+    </div>
+    <p class="hero-subtitle">{{ .Description }}</p>
+    {{- with .Params.github_url }}
+    <a class="btn-filled" href="{{ . }}" target="_blank" rel="noopener noreferrer">View Project</a>
+    {{- end }}
+  </div>
+</section>
+
+{{- /* ── Project Content ─────────────────────────────── */}}
+<article class="project-body">
+  {{ .Content }}
+</article>
+
+{{- /* ── Prev / Next Navigation ───────────────────────── */}}
+<nav class="project-nav">
+  <div>
+    {{- with .PrevInSection }}
+    <a href="{{ .RelPermalink }}">&larr; {{ .Title }}</a>
+    {{- end }}
+  </div>
+  <div>
+    {{- with .NextInSection }}
+    <a href="{{ .RelPermalink }}">{{ .Title }} &rarr;</a>
+    {{- end }}
+  </div>
+</nav>
+
+{{- /* ── Footer ───────────────────────────────────────── */}}
+<footer class="site-footer">
+  <canvas id="footer-canvas"></canvas>
+  <div class="footer-content">
+    <p class="footer-title">Let&#39;s build something cool!</p>
+    <a class="footer-email" href="mailto:andyklenz@gmail.com">andyklenz@gmail.com</a>
+  </div>
+</footer>
+
+{{ end }}

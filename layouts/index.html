@@ -1,0 +1,75 @@
+{{- /* ABOUTME: Homepage layout: hero banner → introduction → project cards → footer. */}}
+{{- /* ABOUTME: Mirrors the structure of the React portfolio at andyklenzman.com. */}}
+{{ define "main" }}
+
+{{- /* ── Hero Banner ────────────────────────────────────── */}}
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="glitch-text">
+      <p class="glitch-text-front">Andy Klenzman</p>
+      <p class="glitch-text-back">Andy Klenzman</p>
+    </div>
+    <p class="hero-subtitle">&lt;Full Stack Developer /&gt;</p>
+    <a class="btn-transparent" href="#portfolio">View Portfolio</a>
+  </div>
+</section>
+
+{{- /* ── Introduction ──────────────────────────────────── */}}
+<section class="introduction" id="portfolio">
+  {{- with site.Params.profileMode }}
+    {{- if .imageUrl }}
+    <div class="headshot-col">
+      {{- $img := "" }}
+      {{- if not (urls.Parse .imageUrl).IsAbs }}
+        {{- $img = resources.Get .imageUrl }}
+      {{- end }}
+      {{- if $img }}
+        <img class="headshot" src="{{ $img.Permalink }}" alt="Andy Klenzman headshot">
+      {{- else }}
+        <img class="headshot" src="{{ .imageUrl | absURL }}" alt="Andy Klenzman headshot">
+      {{- end }}
+    </div>
+    {{- end }}
+  {{- end }}
+  <div class="bio-col">
+    {{ .Content }}
+  </div>
+</section>
+
+{{- /* ── Project Cards ─────────────────────────────────── */}}
+<section class="projects-container">
+  <div class="projects-grid">
+    {{- $items := where .Site.RegularPages "Section" "items" }}
+    {{- range (sort $items "Date" "desc") }}
+    {{- $page := . }}
+    {{- $img := .Resources.GetMatch "*.{jpg,jpeg,png,PNG,gif,webp}" }}
+    <a class="project-card" href="{{ .RelPermalink }}">
+      {{- if $img }}
+        <img class="project-card-img" src="{{ $img.RelPermalink }}" alt="{{ .Title }}">
+      {{- end }}
+      <div class="card-overlay">
+        <div class="card-glitch">
+          <p class="card-glitch-front">{{ .Title }}</p>
+          <p class="card-glitch-back">{{ .Title }}</p>
+        </div>
+        <p class="card-subtitle">{{ .Description }}</p>
+      </div>
+      <div class="card-banner">
+        <p class="card-title-small">{{ .Title }}</p>
+      </div>
+    </a>
+    {{- end }}
+  </div>
+</section>
+
+{{- /* ── Footer ───────────────────────────────────────── */}}
+<footer class="site-footer">
+  <canvas id="footer-canvas"></canvas>
+  <div class="footer-content">
+    <p class="footer-title">Let&#39;s build something cool!</p>
+    <a class="footer-email" href="mailto:andyklenz@gmail.com">andyklenz@gmail.com</a>
+  </div>
+</footer>
+
+{{ end }}

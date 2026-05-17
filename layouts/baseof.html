@@ -1,0 +1,25 @@
+{{- /* ABOUTME: Root HTML shell for the dark portfolio design. */}}
+{{- /* ABOUTME: Loads Roboto, portfolio-dark.css, and the blob animation JS. */}}
+<!DOCTYPE html>
+<html lang="{{ site.Language }}" dir="{{ .Language.LanguageDirection | default "auto" }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
+  <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+  <link rel="stylesheet" href="/css/portfolio-dark.css">
+</head>
+<body>
+  <nav class="site-nav">
+    <a class="nav-link" href="/">Home /</a>
+    <a class="nav-link" href="mailto:andyklenz@gmail.com">Email /</a>
+    <a class="nav-link" href="https://www.linkedin.com/in/andy-klenzman-735333149/" target="_blank" rel="noopener noreferrer">LinkedIn /</a>
+    <a class="nav-link" href="https://github.com/andyKlenzman" target="_blank" rel="noopener noreferrer">Github /</a>
+    <a class="nav-link" href="https://docs.google.com/document/d/116xtnqwOGtKrAWpiBpoc2Q-okcqDJrHa2ecpMvKWoOQ/edit?usp=sharing" target="_blank" rel="noopener noreferrer">CV</a>
+  </nav>
+
+  {{- block "main" . }}{{ end }}
+
+  <script src="/js/blob-animation.js"></script>
+</body>
+</html>
