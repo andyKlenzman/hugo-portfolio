@@ -1,20 +1,21 @@
+{{- /* ABOUTME: Reusable timeline partial — renders data/timeline.json entries as a visual timeline. */}}
+{{- /* ABOUTME: Ported from andy.blog. Call with {{ partial "timeline.html" . }} from any layout. */}}
 <div class="timeline">
-  {{ range sort .Site.Data.timeline.entries "date" "desc" }}
+  {{- range sort .Site.Data.timeline.entries "date" "desc" }}
   <div class="timeline-entry">
     <div class="timeline-date">
-      {{ $t := .date }}
-      {{ $parts := split $t "-" }}
-      {{ $year := index $parts 0 }}
-      {{ $month := index $parts 1 | int }}
-      {{ $months := slice "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec" }}
-      {{ index $months (sub $month 1) }} {{ $year }}
+      {{- $parts := split .date "-" }}
+      {{- $year  := index $parts 0 }}
+      {{- $month := index $parts 1 | int }}
+      {{- $months := slice "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec" }}
+      {{- index $months (sub $month 1) }} {{ $year }}
     </div>
     <div class="timeline-content">
-      <strong>
-        {{ if .url }}<a href="{{ .url }}">{{ .title }}</a>{{ else }}{{ .title }}{{ end }}
-      </strong>
-      {{ with .description }}<p>{{ . }}</p>{{ end }}
+      <span class="timeline-title">
+        {{- if .url }}<a href="{{ .url }}">{{ .title }}</a>{{ else }}{{ .title }}{{ end }}
+      </span>
+      {{- with .description }}<p>{{ . }}</p>{{ end }}
     </div>
   </div>
-  {{ end }}
+  {{- end }}
 </div>

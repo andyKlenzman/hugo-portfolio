@@ -535,6 +535,119 @@ body {
 .project-nav a { color: var(--primary); text-decoration: none; }
 .project-nav a:hover { text-decoration: underline; }
 
+/* ── Timeline ───────────────────────────────────────────
+ * Reusable partial rendered at /timeline.
+ * Also used via {{ partial "timeline.html" . }} from any layout.
+ */
+
+.timeline-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: calc(var(--nav-height) + 48px) 24px 80px;
+}
+
+.timeline-page-title {
+  font-family: var(--font-mono);
+  font-size: var(--fs-medium);
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: var(--space-xl);
+}
+
+.timeline {
+  position: relative;
+  padding-left: 96px;
+}
+
+/* Vertical line */
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 76px;
+  top: 8px;
+  bottom: 0;
+  width: 1px;
+  background-color: #2a2a2a;
+}
+
+.timeline-entry {
+  position: relative;
+  display: flex;
+  margin-bottom: var(--space-lg);
+}
+
+/* Dot on the line */
+.timeline-entry::before {
+  content: "";
+  position: absolute;
+  left: 71px;
+  top: 7px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  flex-shrink: 0;
+}
+
+.timeline-date {
+  position: absolute;
+  left: -96px;
+  width: 68px;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xsmall);
+  color: var(--muted);
+  padding-top: 3px;
+  white-space: nowrap;
+}
+
+.timeline-content {
+  padding-left: var(--space-md);
+}
+
+.timeline-title {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--fs-small);
+  color: var(--white);
+  line-height: 1.5;
+}
+
+.timeline-title a {
+  color: var(--white);
+  text-decoration: underline;
+  text-decoration-color: var(--primary);
+  text-underline-offset: 2px;
+}
+
+.timeline-title a:hover { color: var(--primary); }
+
+.timeline-content p {
+  margin: 4px 0 0;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* "history of andy" inline link in bio */
+.history-link {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xsmall);
+  color: var(--primary);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  margin-top: var(--space-md);
+  opacity: 0.85;
+}
+
+.history-link:hover {
+  opacity: 1;
+  color: var(--white);
+}
+
 /* ── Resume Page ────────────────────────────────────────
  * Proxima Nova requires Adobe Fonts. Add your kit to baseof.html:
  *   <link rel="stylesheet" href="https://use.typekit.net/YOURKIT.css">

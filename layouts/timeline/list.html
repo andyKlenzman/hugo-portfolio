@@ -1,7 +1,8 @@
-{{- define "main" }}
-<header class="page-header">
-  <h1>{{ .Title }}</h1>
-</header>
-
-{{ partial "timeline.html" . }}
-{{- end }}
+{{- /* ABOUTME: Timeline page layout — wraps the timeline partial in the site shell. */}}
+{{- /* ABOUTME: Data source is data/timeline.json; the partial handles rendering. */}}
+{{ define "main" }}
+<div class="timeline-page">
+  <h1 class="timeline-page-title">{{ .Title }}</h1>
+  {{ partial "timeline.html" . }}
+</div>
+{{ end }}
