@@ -1,0 +1,94 @@
+# ABOUTME: Resume data — single source of truth for the /resume page.
+# ABOUTME: Edit this file to update the resume. Hugo re-renders automatically.
+#
+# Structure follows JSON Resume schema (https://jsonresume.org/schema/)
+# so data can also be exported to PDF/JSON tooling if needed.
+
+basics:
+  name: Andy Klenzman
+  label: Embedded Systems & Data Science Engineer
+  email: andyklenz@gmail.com
+  url: https://andyklenzman.com
+  location:
+    city: Saarbrücken
+    region: Saarland
+    country: Germany
+  summary: >
+    Engineer working at the intersection of embedded systems and data science.
+    I build firmware for constrained hardware and data pipelines for making
+    sense of what that hardware produces. Currently based in Saarbrücken —
+    previously in the US. I care about systems that are reliable, observable,
+    and worth understanding.
+  profiles:
+    - network: GitHub
+      url: https://github.com/andyKlenzman
+    - network: LinkedIn
+      url: https://www.linkedin.com/in/andy-klenzman-735333149/
+    - network: CV (PDF)
+      url: https://docs.google.com/document/d/116xtnqwOGtKrAWpiBpoc2Q-okcqDJrHa2ecpMvKWoOQ/edit?usp=sharing
+
+work:
+  - company: ImagineOn
+    position: Embedded Software Engineer
+    location: Saarbrücken, DE
+    startDate: "2023-07"
+    endDate: "2026-07"
+    summary: >
+      TODO: one sentence describing the company / what it does.
+    highlights:
+      - TODO: key achievement or responsibility
+      - TODO: key achievement or responsibility
+      - TODO: key achievement or responsibility
+
+  - company: TODO Company
+    position: TODO Role
+    location: TODO City
+    startDate: "2021-01"
+    endDate: "2023-06"
+    summary: >
+      TODO: one sentence describing the company / what it does.
+    highlights:
+      - TODO: key achievement or responsibility
+      - TODO: key achievement or responsibility
+
+skills:
+  - name: Embedded Systems
+    keywords:
+      - C / C++
+      - RTOS
+      - Firmware Development
+      - Microcontrollers
+      - TODO: add more
+
+  - name: Data Science
+    keywords:
+      - Python
+      - NumPy / Pandas
+      - TODO: ML frameworks you use
+      - TODO: visualization tools
+
+  - name: Infrastructure & Tools
+    keywords:
+      - Git
+      - Linux
+      - TODO: add more
+
+education:
+  - institution: TODO University / Hochschule
+    area: TODO Field of Study
+    studyType: TODO (B.Sc. / M.Sc. / etc.)
+    startDate: "TODO"
+    endDate: "TODO"
+    highlights:
+      - TODO: thesis topic, honors, or relevant coursework
+
+languages:
+  - language: English
+    fluency: Native
+  - language: German
+    fluency: Conversational
+
+interests:
+  - name: Meditation
+  - name: Travel
+  - name: Open Source Hardware

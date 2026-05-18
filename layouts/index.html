@@ -7,7 +7,7 @@
   <canvas id="hero-canvas"></canvas>
   <div class="hero-content">
     {{ partial "glitch-text.html" (dict "text" "Andy Klenzman" "class" "glitch-text") }}
-    <p class="hero-subtitle">&lt;Full Stack Developer /&gt;</p>
+    <p class="hero-subtitle">Embedded · Data Science</p>
     <a class="btn-transparent" href="#portfolio">View Portfolio</a>
   </div>
 </section>
@@ -36,6 +36,7 @@
 
 {{- /* ── Project Cards ─────────────────────────────────── */}}
 <section class="projects-container">
+  <p class="section-label">// Projects</p>
   <div class="projects-grid">
     {{- $items := where .Site.RegularPages "Section" "items" }}
     {{- range (sort $items "Date" "desc") }}

@@ -1,7 +1,7 @@
-/* ABOUTME: Dark portfolio design — colors, layout, and components matching the React portfolio. */
+/* ABOUTME: Full-dark portfolio design — entire page dark, for embedded/data science professional. */
 /* ABOUTME: Edit --primary to change the accent color everywhere (CSS + JS blobs sync automatically). */
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@300;400;500;700&display=swap');
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -11,53 +11,54 @@
 
 /* ─────────────────────────────────────────────────────────
  * Design tokens
- * Edit these to restyle the whole site.
  * ───────────────────────────────────────────────────────── */
 :root {
-  /* Accent — change this one value to repaint every colored element */
-  --primary:      #e854e6;
+  --primary:      #2dd4bf;
 
-  /* Base palette */
-  --dark:         #1c1c1c;
-  --white:        #ffffff;
+  --dark:         #0d0d0d;
+  --surface:      #161616;
+  --surface-2:    #1e1e1e;
+  --white:        #e8e8e8;
+  --muted:        #888888;
 
-  /* Typography scale (modular, ratio ~1.25) */
+  --font-mono:    'IBM Plex Mono', 'Courier New', monospace;
+  --font-sans:    'IBM Plex Sans', sans-serif;
+
   --fs-large:     3.815rem;
   --fs-medium:    1.953rem;
   --fs-smmed:     1.563rem;
   --fs-small:     1rem;
   --fs-xsmall:    0.8rem;
 
-  /* Navigation */
   --nav-height:   40px;
-  --nav-gap:      12px;   /* horizontal gap between nav items */
+  --nav-gap:      12px;
 
-  /* Spacing */
   --space-xs:     4px;
   --space-sm:     8px;
   --space-md:     16px;
   --space-lg:     24px;
   --space-xl:     40px;
 
-  /* Cards */
   --card-height:  300px;
 
-  /* Animation */
-  --transition-btn: 0.7s;
-  --transition-card: 0.35s;
+  --transition-btn:    0.7s;
+  --transition-card:   0.35s;
   --transition-banner: 0.5s;
 }
 
 body {
-  font-family: "Roboto", sans-serif;
-  background: white;
-  color: var(--dark);
+  font-family: var(--font-sans);
+  background-color: var(--dark);
+  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+  color: var(--white);
 }
 
 /* ── Fixed Nav ──────────────────────────────────────────── */
 
 .site-nav {
   background-color: var(--dark);
+  border-bottom: 1px solid var(--primary);
   display: flex;
   align-items: center;
   gap: var(--nav-gap);
@@ -68,17 +69,19 @@ body {
   top: 0;
   left: 0;
   z-index: 5000;
-  overflow-x: auto;   /* scroll on narrow viewports instead of wrapping */
+  overflow-x: auto;
   scrollbar-width: none;
 }
 
 .site-nav::-webkit-scrollbar { display: none; }
 
 .nav-link {
+  font-family: var(--font-mono);
   color: var(--primary);
-  font-size: var(--fs-small);
+  font-size: var(--fs-xsmall);
   font-weight: 500;
   text-transform: uppercase;
+  letter-spacing: 0.08em;
   text-decoration: none;
   white-space: nowrap;
   padding: var(--space-xs) 0;
@@ -92,14 +95,6 @@ body {
 }
 
 /* ── Glitch Text Effect ─────────────────────────────────── */
-/*
- * Two stacked text elements: white front (z-index 2) and
- * primary-color back (z-index 1) offset by a few pixels.
- *
- * Variants:
- *   .glitch-text  — large, used in hero + project banner headlines
- *   .card-glitch  — medium, used in card overlay + card banner
- */
 
 .glitch-text,
 .card-glitch {
@@ -112,6 +107,7 @@ body {
   position: relative;
   z-index: 2;
   color: var(--white);
+  font-family: var(--font-mono);
   font-weight: 700;
   display: block;
 }
@@ -121,18 +117,17 @@ body {
   position: absolute;
   z-index: 1;
   color: var(--primary);
+  font-family: var(--font-mono);
   width: 100%;
   font-weight: 700;
   display: block;
   pointer-events: none;
 }
 
-/* Large variant */
 .glitch-text-front,
 .glitch-text-back  { font-size: var(--fs-large); }
 .glitch-text-back  { left: -4px; top: 4px; }
 
-/* Medium variant */
 .card-glitch-front,
 .card-glitch-back  { font-size: var(--fs-smmed); }
 .card-glitch-back  { left: -2px; top: 2px; }
@@ -169,8 +164,22 @@ body {
 }
 
 .hero-subtitle {
+  font-family: var(--font-mono);
   color: var(--white);
   font-size: var(--fs-smmed);
+  letter-spacing: 0.06em;
+  font-weight: 400;
+}
+
+.hero-subtitle::after {
+  content: '_';
+  color: var(--primary);
+  animation: cursor-blink 1.2s step-end infinite;
+}
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
 }
 
 .btn-transparent {
@@ -178,24 +187,36 @@ body {
   height: 50px;
   width: 180px;
   color: var(--white);
-  border: 2px solid var(--white);
+  border: 1px solid rgba(255,255,255,0.2);
   background: transparent;
   text-align: center;
   transition: background-color var(--transition-btn), border-color var(--transition-btn);
   cursor: pointer;
-  font-family: "Roboto", sans-serif;
-  font-size: var(--fs-small);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xsmall);
   text-transform: uppercase;
-  letter-spacing: 0.003rem;
-  line-height: 46px;
+  letter-spacing: 0.1em;
+  line-height: 48px;
   text-decoration: none;
 }
 
 .btn-transparent:hover {
   background-color: var(--primary);
   border-color: var(--primary);
-  color: var(--white);
+  color: var(--dark);
   text-decoration: none;
+}
+
+/* ── Section Labels ─────────────────────────────────────── */
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xsmall);
+  color: var(--primary);
+  text-transform: lowercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-md);
+  opacity: 0.85;
 }
 
 /* ── Introduction ───────────────────────────────────────── */
@@ -207,6 +228,7 @@ body {
   gap: var(--space-lg);
   max-width: 1140px;
   margin: 0 auto;
+  background-color: var(--surface);
 }
 
 .headshot-col {
@@ -226,19 +248,21 @@ body {
   height: 200px;
   width: 200px;
   object-fit: cover;
-  border: 5px double var(--dark);
+  border: 2px solid var(--primary);
 }
 
 .bio-col {
   flex: 1;
   min-width: 280px;
   font-size: var(--fs-smmed);
-  line-height: 1.6;
+  font-weight: 300;
+  line-height: 1.65;
+  color: #c8c8c8;
 }
 
 .bio-col p { margin-bottom: 1em; }
 .bio-col a { color: var(--primary); text-decoration: underline; }
-.bio-col a:hover { color: var(--dark); }
+.bio-col a:hover { color: #ffffff; }
 
 /* ── Project Cards ──────────────────────────────────────── */
 
@@ -258,11 +282,6 @@ body {
   .projects-grid { grid-template-columns: 1fr; }
 }
 
-/* ── Image loading shimmer ────────────────────────────────
- * A left-to-right sweep plays while the card image loads.
- * Once the image fires its load event, JS adds .loaded and
- * the shimmer fades out.
- */
 @keyframes card-shimmer {
   0%   { transform: translateX(-100%); }
   100% { transform: translateX(100%);  }
@@ -272,21 +291,25 @@ body {
   position: relative;
   cursor: pointer;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.6);
   height: var(--card-height);
   display: block;
   text-decoration: none;
-  background: var(--dark);
+  background: var(--surface-2);
+  transition: box-shadow var(--transition-card);
 }
 
-/* Shimmer sweep — runs while image is loading */
+.project-card:hover {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.8), 0 0 0 1px var(--primary);
+}
+
 .project-card::after {
   content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(90deg,
     transparent 0%,
-    rgba(255,255,255,0.06) 50%,
+    rgba(255,255,255,0.04) 50%,
     transparent 100%);
   animation: card-shimmer 1.8s linear infinite;
   pointer-events: none;
@@ -304,13 +327,13 @@ body {
   height: 100%;
   object-fit: cover;
   display: block;
+  opacity: 0.85;
 }
 
-/* Dark overlay — fades in on hover */
 .card-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.562);
+  background: rgba(0, 0, 0, 0.7);
   opacity: 0;
   transition: opacity var(--transition-card) ease;
   display: flex;
@@ -325,15 +348,11 @@ body {
 
 .project-card:hover .card-overlay { opacity: 1; }
 
-/* Foreground title banner — slides out on hover.
- * overflow is intentionally hidden so the glitch back layer
- * is clipped along with the rest of the banner as width → 0.
- */
 .card-banner {
   position: absolute;
   bottom: 10%;
   left: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.6);
   text-transform: uppercase;
   width: 80%;
   height: 45px;
@@ -350,7 +369,6 @@ body {
   padding-left: 0;
 }
 
-/* Banner glitch text — slightly smaller offset to fit the 45px bar */
 .card-banner .card-glitch-front,
 .card-banner .card-glitch-back {
   font-size: var(--fs-smmed);
@@ -358,15 +376,13 @@ body {
 }
 
 .card-subtitle {
-  color: var(--white);
+  color: #c8c8c8;
   font-size: var(--fs-small);
+  font-family: var(--font-sans);
+  font-weight: 300;
 }
 
-/* ── Shared canvas sections (footer + project banner) ─────
- * Both use a full-bleed absolutely-positioned canvas as background.
- * Pixel dims are read from offsetWidth/offsetHeight in JS so the
- * blobs are always perfectly round.
- */
+/* ── Footer + Project Banner ────────────────────────────── */
 
 .site-footer,
 .project-banner {
@@ -402,6 +418,7 @@ body {
 }
 
 .footer-title {
+  font-family: var(--font-mono);
   color: var(--white);
   font-size: var(--fs-medium);
   font-weight: 700;
@@ -409,8 +426,9 @@ body {
 }
 
 .footer-email {
+  font-family: var(--font-mono);
   color: var(--white);
-  font-size: var(--fs-smmed);
+  font-size: var(--fs-small);
   text-decoration: underline;
   text-decoration-color: var(--primary);
 }
@@ -426,16 +444,17 @@ body {
   display: inline-block;
   height: 50px;
   width: 150px;
-  color: var(--white);
-  border: 2px solid var(--primary);
+  color: var(--dark);
+  border: 1px solid var(--primary);
   background: var(--primary);
   text-align: center;
   transition: background-color var(--transition-btn), border-color var(--transition-btn);
   cursor: pointer;
-  font-family: "Roboto", sans-serif;
-  font-size: var(--fs-small);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xsmall);
   text-transform: uppercase;
-  line-height: 46px;
+  letter-spacing: 0.08em;
+  line-height: 48px;
   text-decoration: none;
 }
 
@@ -450,18 +469,24 @@ body {
   max-width: 756px;
   margin: var(--space-xl) auto;
   padding: 0 var(--space-md);
+  font-family: var(--font-sans);
   font-size: var(--fs-small);
-  line-height: 1.7;
-  color: var(--dark);
+  font-weight: 300;
+  line-height: 1.75;
+  color: #c8c8c8;
 }
 
 .project-body h1,
 .project-body h2,
-.project-body h3 { margin: 1.5em 0 0.5em; font-weight: 700; }
+.project-body h3 {
+  font-family: var(--font-mono);
+  color: var(--white);
+  margin: 1.5em 0 0.5em;
+  font-weight: 700;
+}
 
 .project-body p { margin-bottom: 1em; }
 
-/* Images: normalized size + fade-in once loaded */
 .project-body img {
   max-width: 100%;
   width: 100%;
@@ -469,14 +494,13 @@ body {
   object-fit: cover;
   display: block;
   margin: var(--space-lg) auto;
-  background: var(--dark);
+  background: var(--surface-2);
   opacity: 0;
   transition: opacity 0.4s ease;
 }
 
 .project-body img.img-loaded { opacity: 1; }
 
-/* Videos: locked to 16:9 */
 .project-body iframe {
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -487,25 +511,181 @@ body {
 }
 
 .project-body a      { color: var(--primary); text-decoration: underline; }
-.project-body strong { font-weight: 700; }
+.project-body strong { font-weight: 700; color: var(--white); }
 
 .project-body code {
-  font-family: 'Courier New', monospace;
-  background: #f0f0f0;
-  padding: 0.1em 0.3em;
-  border-radius: 3px;
+  font-family: var(--font-mono);
+  background: var(--surface-2);
+  color: var(--primary);
+  padding: 0.1em 0.4em;
+  border-radius: 2px;
+  font-size: 0.9em;
 }
 
-/* Prev / next project navigation */
 .project-nav {
   display: flex;
   justify-content: space-between;
   max-width: 756px;
   margin: 0 auto var(--space-xl);
   padding: 0 var(--space-md);
-  font-size: var(--fs-small);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xsmall);
   text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .project-nav a { color: var(--primary); text-decoration: none; }
 .project-nav a:hover { text-decoration: underline; }
+
+/* ── Resume Page ────────────────────────────────────────
+ * Proxima Nova requires Adobe Fonts. Add your kit to baseof.html:
+ *   <link rel="stylesheet" href="https://use.typekit.net/YOURKIT.css">
+ * Without it, Helvetica Neue is the fallback.
+ */
+
+.resume-page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: calc(var(--nav-height) + 48px) 24px 80px;
+  font-family: "proxima-nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #d4d4d4;
+  background: var(--surface);
+}
+
+.resume-header { margin-bottom: 32px; }
+
+.resume-name {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 2px;
+}
+
+.resume-label {
+  font-size: 0.95rem;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.resume-contact {
+  font-size: 0.85rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 6px;
+  align-items: center;
+  color: var(--muted);
+}
+
+.resume-contact a       { color: #c8c8c8; text-decoration: underline; }
+.resume-contact a:hover { color: #fff; }
+.resume-contact-sep     { color: #333; }
+
+.resume-summary {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #b0b0b0;
+}
+
+.resume-section         { margin-top: 32px; }
+.resume-section-heading {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--white);
+  border-bottom: 1px solid #2a2a2a;
+  padding-bottom: 5px;
+  margin-bottom: 16px;
+}
+
+.resume-entry           { margin-bottom: 18px; }
+.resume-entry:last-child { margin-bottom: 0; }
+
+.resume-entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+.resume-entry-left      { flex: 1; min-width: 0; }
+.resume-role            { font-weight: 700; color: var(--white); }
+.resume-at              { color: #444; }
+.resume-company         { font-weight: 400; color: #c8c8c8; }
+.resume-entry-location  { font-size: 0.8rem; color: var(--muted); }
+
+.resume-entry-date {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--white);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.resume-entry-meta {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 2px 0 6px;
+}
+
+.resume-entry-summary {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #999;
+  margin-bottom: 6px;
+}
+
+.resume-highlights {
+  list-style: disc;
+  padding-left: 18px;
+  margin: 0;
+}
+
+.resume-highlights li {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: #b0b0b0;
+  margin-bottom: 2px;
+}
+
+.resume-skills-grid     { display: flex; flex-direction: column; gap: 8px; }
+
+.resume-skill-group {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 12px;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 500px) {
+  .resume-skill-group   { grid-template-columns: 1fr; gap: 2px; }
+}
+
+.resume-skill-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--primary);
+}
+
+.resume-skill-keywords  { color: #b0b0b0; line-height: 1.55; }
+
+.resume-section--inline .resume-inline-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+
+.resume-inline-item     { font-size: 0.9rem; color: #c8c8c8; }
+.resume-fluency         { font-size: 0.8rem; color: var(--muted); margin-left: 3px; }
+
+@media print {
+  .site-nav, .site-footer { display: none !important; }
+  body   { background: white; background-image: none; color: #111; }
+  .resume-page { background: white; color: #111; padding-top: 24px; max-width: 100%; }
+  .resume-name, .resume-role, .resume-entry-date { color: #111; }
+  .resume-section-heading { color: #111; border-bottom-color: #ddd; }
+}

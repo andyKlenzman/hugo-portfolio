@@ -1,0 +1,116 @@
+{{- /* ABOUTME: Resume page layout — renders data/resume.yaml as a formatted resume. */}}
+{{- /* ABOUTME: Data source is .Site.Data.resume; edit that YAML file to update content. */}}
+{{ define "main" }}
+{{- $r := .Site.Data.resume }}
+<div class="resume-page">
+
+  <header class="resume-header">
+    <h1 class="resume-name">{{ $r.basics.name }}</h1>
+    <p class="resume-label">{{ $r.basics.label }}</p>
+    <div class="resume-contact">
+      <a href="mailto:{{ $r.basics.email }}">{{ $r.basics.email }}</a>
+      {{- range $r.basics.profiles }}
+      <span class="resume-contact-sep">/</span>
+      <a href="{{ .url }}" target="_blank" rel="noopener noreferrer">{{ .network }}</a>
+      {{- end }}
+      {{- with $r.basics.location }}
+      <span class="resume-contact-sep">/</span>
+      <span>{{ .city }}, {{ .country }}</span>
+      {{- end }}
+    </div>
+  </header>
+
+  {{- with $r.basics.summary }}
+  <section class="resume-section">
+    <p class="resume-summary">{{ . }}</p>
+  </section>
+  {{- end }}
+
+  {{- with $r.work }}
+  <section class="resume-section">
+    <h2 class="resume-section-heading">Experience</h2>
+    {{- range . }}
+    <div class="resume-entry">
+      <div class="resume-entry-header">
+        <div class="resume-entry-left">
+          <span class="resume-role">{{ .position }}</span>
+          <span class="resume-at"> @ </span>
+          <span class="resume-company">{{ .company }}</span>
+          {{- with .location }}<span class="resume-entry-location"> · {{ . }}</span>{{- end }}
+        </div>
+        <span class="resume-entry-date">{{ .startDate }}{{ if .endDate }} — {{ .endDate }}{{ else }} — Present{{ end }}</span>
+      </div>
+      {{- with .summary }}
+      <p class="resume-entry-summary">{{ . }}</p>
+      {{- end }}
+      {{- with .highlights }}
+      <ul class="resume-highlights">
+        {{- range . }}<li>{{ . }}</li>{{ end }}
+      </ul>
+      {{- end }}
+    </div>
+    {{- end }}
+  </section>
+  {{- end }}
+
+  {{- with $r.skills }}
+  <section class="resume-section">
+    <h2 class="resume-section-heading">Skills</h2>
+    <div class="resume-skills-grid">
+      {{- range . }}
+      <div class="resume-skill-group">
+        <span class="resume-skill-name">{{ .name }}</span>
+        <span class="resume-skill-keywords">{{ delimit .keywords " · " }}</span>
+      </div>
+      {{- end }}
+    </div>
+  </section>
+  {{- end }}
+
+  {{- with $r.education }}
+  <section class="resume-section">
+    <h2 class="resume-section-heading">Education</h2>
+    {{- range . }}
+    <div class="resume-entry">
+      <div class="resume-entry-header">
+        <div class="resume-entry-left">
+          <span class="resume-role">{{ .studyType }} · {{ .area }}</span>
+          <span class="resume-at"> @ </span>
+          <span class="resume-company">{{ .institution }}</span>
+        </div>
+        <span class="resume-entry-date">{{ .startDate }}{{ with .endDate }} — {{ . }}{{ end }}</span>
+      </div>
+      {{- with .highlights }}
+      <ul class="resume-highlights">
+        {{- range . }}<li>{{ . }}</li>{{ end }}
+      </ul>
+      {{- end }}
+    </div>
+    {{- end }}
+  </section>
+  {{- end }}
+
+  {{- with $r.languages }}
+  <section class="resume-section resume-section--inline">
+    <h2 class="resume-section-heading">Languages</h2>
+    <div class="resume-inline-list">
+      {{- range . }}
+      <span class="resume-inline-item">{{ .language }} <span class="resume-fluency">{{ .fluency }}</span></span>
+      {{- end }}
+    </div>
+  </section>
+  {{- end }}
+
+  {{- with $r.interests }}
+  <section class="resume-section resume-section--inline">
+    <h2 class="resume-section-heading">Interests</h2>
+    <div class="resume-inline-list">
+      {{- range . }}
+      <span class="resume-inline-item">{{ .name }}</span>
+      {{- end }}
+    </div>
+  </section>
+  {{- end }}
+
+</div>
+{{ end }}
