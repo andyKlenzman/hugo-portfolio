@@ -89,9 +89,7 @@ body {
 }
 
 .nav-link:hover {
-  color: var(--primary);
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  color: var(--white);
 }
 
 /* ── Glitch Text Effect ─────────────────────────────────── */
